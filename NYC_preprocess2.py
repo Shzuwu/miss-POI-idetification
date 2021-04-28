@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Apr 16 09:56:20 2021
-1、输入：train.csv, test.csv, data.csv, delta_threshold
-2、输出：train_new.csv, test_new.csv, user-poi, time-poi, user-catg, time-catg, catg-catg， poi-category-location_train(地点包含的所有GPS位置)
+1、Input：train.csv, test.csv, data.csv, delta_threshold
+2、Input：train_new.csv, test_new.csv, user-poi, time-poi, user-catg, time-catg, catg-catg， poi-category-location_train(地点包含的所有GPS位置)
 
 @author: Administrator
 """
@@ -48,7 +48,7 @@ df_test = df_test.sort_values(by=['user','timeConvert'])
 df_data = pd.read_csv(datapath_data, sep='\t')
 df_data = df_data.sort_values(by=['user','timeConvert'])
 
-# 类别-类别图构建 category_category graph construct(6小时时间间隔)
+# built category_category graph construct
 df_catg2catg= pd.DataFrame(columns = ['user', 'category_source', 'category_target'])
 category_user = []
 delta_time = []
@@ -80,7 +80,6 @@ index_true = df_catg2catg['delta_time'] <= 21600
 df_catg2catg = df_catg2catg.loc[index_true]
 
 
-# 为训练集去掉新的catg
 catg_set = set(list(df_catg2catg['category_source'])+ list(df_catg2catg['category_target']))
 catg_set_train = set(df_train['category'])
 catg_subset_train = catg_set_train - catg_set
@@ -93,7 +92,6 @@ for i in catg_subset_train:
 df_train = df_train.reset_index()
 df_train = df_train.sort_values(by=['user','timeConvert'])
 
-# 为测试集去掉新的catg
 catg_set_data = set(df_data['category'])
 catg_subset_test = catg_set_data - catg_set
 
@@ -104,7 +102,6 @@ for i in catg_subset_test:
         df_test = df_test.drop(i)
 df_test = df_test.reset_index()
 
-# 为测试集去掉新的poi
 poi_set_train = set(df_train['poi'])
 poi_set = set(df_data['poi'])
 poi_subset_test = list(poi_set - poi_set_train) 
@@ -117,7 +114,6 @@ for i in poi_subset_test:
 df_test = df_test.reset_index()
 df_test = df_test.sort_values(by=['user','timeConvert'])
 
-#生成 df_user2poi, df_time2poi, df_user2catg, df_time2catg，并保存
 print('graph generate and save')
 df_user2poi, df_time2poi, df_user2catg, df_time2catg = graphGenerate(df_train)
 df_user2poi.to_csv(r'./data/preprocessedData/{}/graph_user2poi.csv'.format(data),sep = '\t', index = False, header = True)
@@ -142,7 +138,6 @@ df_test.to_csv(r'./data/preprocessedData/{}_testNew.csv'.format(data),sep = '\t'
 df_dataNew = df_dataNew.reset_index()
 
 print('save poi_category_location')
-# poi-category-location_train(所有地点包含一个明确的位置,保存第一个)
 dataCopy = df_dataNew.copy()
 temp = pd.DataFrame()
 temp['poi'] = dataCopy['poi']
