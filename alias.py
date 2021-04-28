@@ -37,10 +37,10 @@ def create_alias_table(area_ratio):
     
     return accept, alias
 
-# 节点采样, 最好是要去除它的邻居         
+       
 def alias_sample(accept, alias):
     N = len(accept)
-    i = np.random.choice(N)   #随机从N个中随机均匀挑选一个
+    i = np.random.choice(N)   
     r = np.random.rand()
     if r < accept[i]:
         return i
