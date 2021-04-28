@@ -3,9 +3,8 @@
 Created on Fri Apr 16 09:03:35 2021
 
 @author: Administrator
-将数据集划分为训练集和测试集
-1、输入：dataset_TSMC2014_NYC.txt或者dataset_TSMC2014_TKY.txt, 最少人数minimun_threshold
-2、输出：train.csv，test.csv, data_set.csv
+1、Input：dataset_TSMC2014_NYC.txt or dataset_TSMC2014_TKY.txt, minimun_threshold
+2、Output：train.csv，test.csv, data_set.csv
 """
 
 print('hello world')
@@ -39,7 +38,7 @@ def timeValue(day_hourminute):
     return day*date_divide+index
 
 '''
-step1 读数据
+step1 read data
 '''
 data='NYC'
 Minimun_Threshold = 10
@@ -48,13 +47,13 @@ basepath = r"data/original data/dataset_TSMC2014_{}.txt".format(data)
 df_data = pd.read_csv(basepath, header=None, sep='\t')
 
 '''
-step2 时间转换
+step2 timeconvert
 '''
 df_data[8] = [time.mktime(time.strptime(
             df_data[7][index], '%a %b %d %X +0000 %Y')) + int(df_data[6][index]) * 60 for index in df_data[7].index]
 
 '''
-step3 按照[用户，时间线]进行排序，data reindex and sort the dataframe by person's timeline
+step3 data reindex and sort the dataframe by person's timeline
 '''
 columns = ['user','poi','category','categoryName','lat','lon','timeOffset','timestamp','timeConvert']
 df_data.columns = columns
@@ -65,7 +64,7 @@ temp = list(df_data['timestamp'])
 df_data['timeValue'] = [timeValue(time.strftime("%w:%H%M",time.strptime(i,'%a %b %d %X +0000 %Y'))) for i in temp]
 
 '''
-step5 用户少于10个签到的需要进行删除
+step5 delete uses with less than 10 check-ins
  '''
 user_list = list(df_data.index)
 counter = Counter(user_list)
@@ -75,7 +74,7 @@ for i in user_less:
     
 
 '''
-step6 提取用户、时间和类别user, poi and poi_categories
+step6 user, poi and poi_categories
 '''
 users = list(set(df_data.index))
 df_train = pd.DataFrame()
@@ -83,7 +82,7 @@ df_test = pd.DataFrame()
 
 
 '''
-step7 按照80%训练集，20%测试集进行数据划分。divide trainset and testset with 80% and 20%
+step7 divide trainset, Validation set and testset
 '''
 for user in users:
     temp = df_data.loc[user]
@@ -95,7 +94,7 @@ for user in users:
     df_test = pd.concat([df_test, testElement])
     
 '''
-step8 保存各项数据
+step8 save data
 '''
 df_train.to_csv(r'./data/preprocessedData/{}_train.csv'.format(data),sep = '\t', index = True, header = True)
 df_test.to_csv(r'./data/preprocessedData/{}_test.csv'.format(data),sep = '\t', index = True, header = True)
