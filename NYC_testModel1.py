@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Dec 11 11:19:03 2020
-
-开始加入测试模块
-
 @author: Administrator
 """
 
@@ -54,7 +51,7 @@ def DisCalculation(current_coordinate, Index_coordinate_lat, Index_coordinate_lo
 #Margin = 0.1
 DELTA_THRESHOLD = 5*3600
 GRID_LENGTH = 10
-sigma = 0.01   # 越小衰减越快
+sigma = 0.01   
 beta = 0.7
 sess = tf.Session()
 
@@ -89,7 +86,6 @@ emb_catgTarget = eval(catgTarget_txt.read())
 
 '''
 prepare for test
-需要进行归一化处理
 '''
 test_num = len(df_test)
 candidate_num = len(df_dataSet)
