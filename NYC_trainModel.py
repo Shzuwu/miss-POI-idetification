@@ -1,17 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan 20 14:49:47 2021
-将category相关信息进行修改
-具体包括，重新新建图，具体包括：
-user-poi
-poi-time
-user-catg
-catg-catgTarget
-
-其他测试：
-1：u2c和c2c不要负采样测试(修改包括iteration部分和train部分)
-2: c2c中6h间隔测试(负采样)
-3: c2c中6h间隔测试(不含有负采样)
 @author: Administrator
 """
 
@@ -99,7 +88,7 @@ class GE:
         # parameters initialization
         self.weight = [np.random.rand(len(self.idx2node), self.embedding_size)*2-1] 
         
-        # sampling model initialization: edges sampling and nodes sampling——————>需要修改
+        # sampling model initialization: edges sampling and nodes sampling
         self.sample_prob()
         
         # training model initialization
