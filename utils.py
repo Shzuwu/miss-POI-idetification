@@ -15,7 +15,7 @@ def preprocess_node(node_list):
         node2idx[node] = index
     return node2idx
 
-# 图的预处理
+
 def preprocess_nxgraph(graph):
     node2idx = {}
     idx2node = []
@@ -27,7 +27,7 @@ def preprocess_nxgraph(graph):
     return idx2node, node2idx
 
 # ****************************************************
-# 节点整理
+
 def preprocess_graph(g_user2catg, g_user2poi):
     node2idx = {}
     idx2node = []
@@ -41,7 +41,7 @@ def preprocess_graph(g_user2catg, g_user2poi):
         node2idx[node] = idx
     return idx2node, node2idx
 
-# 构建用户-地点二部图
+
 def graphConstruct_user2poi (path_user2poi):
     df = pd.read_csv(path_user2poi,sep='\t')
     df['weight'] = np.ones(len(df),dtype=np.float32)
@@ -53,7 +53,7 @@ def graphConstruct_user2poi (path_user2poi):
                                          create_using=nx.Graph())
     return df, g_user2poi, g_u2pNotDirect
 
-# 构建用户-类别二部图
+
 def graphConstruct_user2catg (path_user2catg):
     df = pd.read_csv(path_user2catg,sep='\t')
     df['weight'] = np.ones(len(df),dtype=np.float32)
